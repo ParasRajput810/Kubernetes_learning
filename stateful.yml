@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nginx
+  namespace: notes-app
+  labels:
+    app: notes-app-state
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: notes-app-state
+  template:
+    metadata:
+      labels:
+        app: notes-app-state
+
+    spec:
+      containers:
+        - name: notes-app-state
+          image: mysql
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: root
+
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi
