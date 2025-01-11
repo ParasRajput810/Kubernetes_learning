@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notes-app-config
+  namespace: notes-app
+  labels:
+    app: notes-app-state
+data:
+  MYSQL_DATABASE: devops
+
