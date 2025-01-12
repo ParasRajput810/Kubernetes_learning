@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: probes-dep
+  labels:
+    app: probes-app
+  namespace: notes-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: probes-app
+  template:
+    metadata:
+      name: probes-pod
+      labels:
+        app: probes-app
+
+    spec:
+      containers:
+        - name: probes-containers
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+

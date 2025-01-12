@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ready-probe
+  labels:
+    app: ready-probe
+  namespace: notes-app
+spec:
+  containers:
+    - name: ready-probe-pod
+      image: registry.k8s.io/busybox
+      args:
+        - /bin/sh
+        - -c
+        - touch /tmp/healthy;  sleep 30; rm -f /tmp/healthy; sleep 600
+
+      readinessProbe:
+        exec:
+          command:
+            - cat
+            - /tmp/healthy
+        initialDelaySeconds: 5
+        periodSeconds: 5
